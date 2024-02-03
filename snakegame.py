@@ -2,7 +2,7 @@ import pygame
 import random
 
 pygame.init()
-pygame.display.set_caption("Winter Project")  # sets title at top of window
+pygame.display.set_caption("Winter Project")   # sets the title at the top of the window
 
 # dimensions of the window
 width = 500
@@ -18,7 +18,7 @@ screen = pygame.display.set_mode((width, height))
 # coordinates of the snake
 snake_x = 0
 snake_y = 0
-sides = 10  # length of squares
+sides = 10  # the sides of rectangle
 
 # coordinates of the fruit
 fruit_x = 250
@@ -28,7 +28,7 @@ fruit_y = 250
 vel_x = 10
 vel_y = 0
 
-# clock
+
 clock = pygame.time.Clock()
 
 # FUNCTIONS WILL GO HERE
@@ -51,21 +51,21 @@ while running:
             if event.key == pygame.K_RIGHT:
                 if snake_x <= width - sides:
                     if not (vel_y == 0):
-                        if vel_x < 0:  # if the direction is negative i.e to the left, make it go to the right
+                        if vel_x < 0:  # if the direction is negative such that to the left, make it go to the right
                             vel_x = -vel_x
                         else:
-                            vel_x = 10  # if the direction is positive i.e to the right, leave it the way it is
+                            vel_x = 10  # if the direction is positive such that to the right, leave it the way it is
                             # pass just means do nothing
                         vel_y = 0
             if event.key == pygame.K_LEFT:
-                if not (vel_y == 0):  # only change if it's  moving in the y direction
+                if not (vel_y == 0):
                     if snake_x >= 0:
-                        if vel_x > 0:  # if direction is positive i.e going to the right, then make it negative to go to
-                            # the left
-                            # update: if the direction is positive, then do nothing unless the snake is going upwards
+                        if vel_x > 0:  # if direction is positive ie going to the right, then make
+                            # #it negative to go to the
+                            # #left
                             vel_x = -vel_x
                         else:
-                            vel_x = -10  # if the direction is negative already i.e going to the left, do nothing
+                            vel_x = -10  # if the direction is negative already ie going to the left, do nothing
                         vel_y = 0
 
             if not (vel_x == 0):
@@ -92,7 +92,7 @@ while running:
     snake = pygame.draw.rect(screen, blue, pygame.Rect(snake_x, snake_y, sides, sides))
     pygame.display.update()
 
-    if snake_x < 0 or snake_x > width-sides or snake_y < 0 or snake_y > width - sides:
+    if snake_x < 0 or snake_x > width - sides or snake_y < 0 or snake_y > width - sides:
         # game over
         running = False
 pygame.quit()
