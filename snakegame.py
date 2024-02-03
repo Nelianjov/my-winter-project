@@ -4,9 +4,9 @@ import random
 pygame.init()
 pygame.display.set_caption("Winter Project")   # sets the title at the top of the window
 
+# dimensions of the window
 width = 500
 height = 500
-
 
 # COLOURS
 red = (255, 0, 0)
@@ -31,9 +31,9 @@ vel_y = 0
 
 clock = pygame.time.Clock()
 
-# beginning of the infinite loop
+# FUNCTIONS WILL GO HERE
 
-
+# game loop starts here
 running = True
 while running:
 
@@ -42,14 +42,12 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-
+        # when user presses a key on the kbd
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_d:  # generating the rect at a random position when you click d
                 fruit_x = random.randint(0, width)
                 fruit_y = random.randint(0, height)
 
-
-# events for left and right
             if event.key == pygame.K_RIGHT:
                 if snake_x <= width - sides:
                     if not (vel_y == 0):
@@ -63,13 +61,13 @@ while running:
                 if not (vel_y == 0):
                     if snake_x >= 0:
                         if vel_x > 0:  # if direction is positive ie going to the right, then make
-                            # #it negative to go to the left
+                            # #it negative to go to the
+                            # #left
                             vel_x = -vel_x
                         else:
                             vel_x = -10  # if the direction is negative already ie going to the left, do nothing
                         vel_y = 0
 
-                # events for up and down
             if not (vel_x == 0):
                 if event.key == pygame.K_UP:
                     if snake_y >= 0:
