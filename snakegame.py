@@ -27,7 +27,7 @@ fruit_y = 250
 # velocity/direction of the snake
 vel_x = 10
 vel_y = 0
-
+score = 0
 
 clock = pygame.time.Clock()
 
@@ -44,9 +44,6 @@ while running:
 
         # when user presses a key on the kbd
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_d:  # generating the rect at a random position when you click d
-                fruit_x = random.randint(0, width)
-                fruit_y = random.randint(0, height)
 
             if event.key == pygame.K_RIGHT:
                 if snake_x <= width - sides:
@@ -90,9 +87,20 @@ while running:
     screen.fill(green)
     fruit = pygame.draw.rect(screen, blue, pygame.Rect(fruit_x, fruit_y, sides, sides))
     snake = pygame.draw.rect(screen, blue, pygame.Rect(snake_x, snake_y, sides, sides))
+    collide = pygame.Rect.colliderect(snake,fruit)
+    if collide:  # generating the rect at a random position when you click d
+        fruit_x = random.randint(0, 400)
+        fruit_y = random.randint(0, 400)
+        score = score + 1
+    font = pygame.font.SysFont('freesans.ttf', 20)
+    text = font.render('score = {0}'.format(score), True, (255, 255, 255), green)
+    text_container = text.get_rect()
+    text_container.center = (30, 30)
+    screen.blit(text, text_container)
     pygame.display.update()
 
     if snake_x < 0 or snake_x > width - sides or snake_y < 0 or snake_y > width - sides:
         # game over
         running = False
+print(score)
 pygame.quit()
