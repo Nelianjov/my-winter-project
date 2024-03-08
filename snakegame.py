@@ -12,6 +12,7 @@ height = 500
 red = (255, 0, 0)
 green = (0, 150, 0)
 blue = (0, 0, 255)
+white = (255, 255, 255)
 
 screen = pygame.display.set_mode((width, height))
 
@@ -32,7 +33,23 @@ vel_y = 0
 clock = pygame.time.Clock()
 
 # FUNCTIONS WILL GO HERE
+score_file = open('scores.txt', 'r+')
+high_score = int(score_file.readline().strip() or 0)
+score_file.close()
 
+score = 0
+font = pygame.font.SysFont('freesans.ttf', 20)
+game_over_text = font.render('Game Over, Retry?', True, white, green)
+game_over_bg = game_over_text.get_rect()
+game_over_bg.center = (width//2, height//2)
+score_text = font.render('Highscore: {0}  score: {1}'.format(high_score, score), True, (255, 255, 255), green)
+score_border = score_text.get_rect()
+score_border.center = (70, 20)
+
+## open a file
+
+
+score_file = open('scores.txt', 'w')
 # game loop starts here
 running = True
 while running:
@@ -44,9 +61,6 @@ while running:
 
         # when user presses a key on the kbd
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_d:  # generating the rect at a random position when you click d
-                fruit_x = random.randint(0, width)
-                fruit_y = random.randint(0, height)
 
             if event.key == pygame.K_RIGHT:
                 if snake_x <= width - sides:
@@ -57,6 +71,7 @@ while running:
                             vel_x = 10  # if the direction is positive i.e to the right, leave it the way it is
                             # pass just means do nothing
                         vel_y = 0
+
             if event.key == pygame.K_LEFT:
                 if not (vel_y == 0):  # only change if it's  moving in the y direction
                     if snake_x >= 0:
@@ -90,9 +105,38 @@ while running:
     screen.fill(green)
     fruit = pygame.draw.rect(screen, blue, pygame.Rect(fruit_x, fruit_y, sides, sides))
     snake = pygame.draw.rect(screen, blue, pygame.Rect(snake_x, snake_y, sides, sides))
+
+    collide = pygame.Rect.colliderect(snake, fruit)
+    if collide:
+        fruit_x = random.randint(0, 400)
+        fruit_y = random.randint(0, 400)
+        score += 1
+        score_text = font.render('Highscore: {0}  score: {1}'.format(high_score, score), True, (255, 255, 255), green)
+
+    if snake_x < 0 or snake_x > width - sides or snake_y < 0 or snake_y > width - sides:
+        # stop the game
+        vel_x = 0
+        vel_y = 0
+
+        # print GAME OVER text
+        screen.blit(game_over_text, game_over_bg)
+
+        # check the highscore
+        if score > high_score:
+            # open("scores.txt", "w").close() # clear the file
+            score_file.write(str(score))
+            score_file.close()
+        else:
+            score_file.write(str(high_score))
+            score_file.close()
+
+        # game over
+        screen.blit(score_text, score_border)
+        pygame.display.update()
+        running = False
+    screen.blit(score_text, score_border)
     pygame.display.update()
 
-    if snake_x < 0 or snake_x > width-sides or snake_y < 0 or snake_y > width - sides:
-        # game over
-        running = False
+
+# score_file.close()
 pygame.quit()
